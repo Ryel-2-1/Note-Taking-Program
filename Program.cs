@@ -5,7 +5,7 @@ class Program
 {
 
     static List<String> notes = new List<String>();
-    static void Main()
+    static void Main(string[] args)
     {
         Console.WriteLine("Hello, This is a note taking program: ");
         Console.WriteLine("What is your name? ");
