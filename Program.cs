@@ -27,32 +27,27 @@ class Program
             switch (choice)
             {
                 case 1:
-                    Console.Write("What's on your mind? \n \t");
-                    string note = Console.ReadLine();
-                    notes.Add(note);
-                    Console.WriteLine(" Got it!");
+                    AddNote();
                     break;
                 case 2:
                     Console.WriteLine("Which number of the note you wanna delete: ");
                     string input = Console.ReadLine();
                     int index;
-                 
-                    if(int.TryParse(input, out index) && index >= 1 && index <= notes.Count){
+
+                    if (int.TryParse(input, out index) && index >= 1 && index <= notes.Count)
+                    {
                         notes.RemoveAt(index - 1);
                         Console.WriteLine(" Deleted! ");
 
-                    } else
-                    {
-                        Console.WriteLine( "Invalid ");
                     }
-                        break;
+                    else
+                    {
+                        Console.WriteLine("Invalid ");
+                    }
+                    break;
 
                 case 3:
-                    Console.WriteLine("Your notes :");
-                    for(int i = 0; i<notes.Count; i++)
-                    {
-                        Console.WriteLine((i + 1) + ": " + notes[i]);
-                    }
+                    showNotes();
 
 
                     break;
@@ -63,14 +58,30 @@ class Program
                     return;
 
                 default:
-                    Console.WriteLine( "Invalid ");
+                    Console.WriteLine("Invalid ");
                     break;
                     Console.ReadKey();
             }
 
         }
 
-        
+
+
+    }
+    static void showNotes()
+    {
+        Console.WriteLine("Your notes :");
+        for (int i = 0; i < notes.Count; i++)
+        {
+            Console.WriteLine((i + 1) + ": " + notes[i]);
+        }
+    }
+    static void AddNote()
+    {
+        Console.Write("What's on your mind? \n \t");
+        string note = Console.ReadLine();
+        notes.Add(note);
+        Console.WriteLine(" Got it!");
 
     }
 }
