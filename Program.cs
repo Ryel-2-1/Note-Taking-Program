@@ -27,29 +27,15 @@ class Program
             switch (choice)
             {
                 case 1:
-                    AddNote();
+                    updateNotes(choice);
                     break;
                 case 2:
-                    Console.WriteLine("Which number of the note you wanna delete: ");
-                    string input = Console.ReadLine();
-                    int index;
+                    updateNotes(choice);
 
-                    if (int.TryParse(input, out index) && index >= 1 && index <= notes.Count)
-                    {
-                        notes.RemoveAt(index - 1);
-                        Console.WriteLine(" Deleted! ");
-
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid ");
-                    }
                     break;
 
                 case 3:
                     showNotes();
-
-
                     break;
 
 
@@ -76,12 +62,32 @@ class Program
             Console.WriteLine((i + 1) + ": " + notes[i]);
         }
     }
-    static void AddNote()
+    static void updateNotes(int choice)
     {
-        Console.Write("What's on your mind? \n \t");
-        string note = Console.ReadLine();
-        notes.Add(note);
-        Console.WriteLine(" Got it!");
+        if (choice == 1)
+        {
+            Console.Write("What's on your mind? \n \t");
+            string note = Console.ReadLine();
+            notes.Add(note);
+            Console.WriteLine("Got it!");
+        }
+        else if (choice == 2)
+        {
+            Console.WriteLine("Which number of the note you wanna delete: ");
+            string input = Console.ReadLine();
+            int index;
 
+            if (int.TryParse(input, out index) && index >= 1 && index <= notes.Count)
+            {
+                notes.RemoveAt(index - 1);
+                Console.WriteLine(" Deleted! ");
+
+            }
+            else
+            {
+                Console.WriteLine("Invalid");
+            }
+        }
     }
 }
+   
