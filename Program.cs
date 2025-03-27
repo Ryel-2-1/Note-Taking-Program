@@ -1,93 +1,138 @@
 ﻿using System;
 using System.Collections.Generic;
+using Note.BusinessDataLogic;
 
-class Program
+internal class Program
 {
+    
+    static string[] actions = new string[] { "[1] Add Note", "[2] Remove Note", "[3] View All Notes", "[4] Exit" };
 
-    static List<String> notes = new List<String>();
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello, This is a note taking program: ");
-        Console.WriteLine("What is your name? ");
-
-        String name = Console.ReadLine();
-
-        Console.WriteLine("Hello " + name + " \n    Please input a number from the following choices: 1-4 ");
+        string name = GetName();
+        DisplayName(name);
 
         while (true)
         {
-            Console.WriteLine(" 1 = Add Note" +
-                "\n 2 = Remove Note" +
-                "\n 3 = View All Notes" +
-                "\n 4 = Exit ");
-            Console.WriteLine("Please enter a number");
+            DisplayActions(name);
+            int userInput = GetUserInput();
 
-            int choice = Convert.ToInt16(Console.ReadLine());
-
-            switch (choice)
+            switch (userInput)
             {
                 case 1:
-                    updateNotes(choice);
+                    Console.Write("What's on your mind? \n \t");
+                    if (NoteProcess.UpdateNotes(Actions.AddNote))
+                    {
+                        Console.WriteLine("Got it!");
+                    }
                     break;
-                case 2:
-                    updateNotes(choice);
 
+                case 2:
+                    if (NoteProcess.notes.Count == 0)
+                    {
+                        Console.WriteLine("No notes to delete.");
+                        break;
+                    }
+
+                    Console.WriteLine("Which number of the note do you want to delete: ");
+                    if (NoteProcess.UpdateNotes(Actions.DeleteNote))
+                    {
+                        Console.WriteLine("Note deleted successfully.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid note number.");
+                    }
                     break;
 
                 case 3:
-                    showNotes();
+                    ShowNotes(); 
                     break;
-
 
                 case 4:
-                    Console.WriteLine("CLOSING");
-                    return;
+                    ExitInvalid(userInput);
+                    Environment.Exit(0);
+                    break;
 
                 default:
-                    Console.WriteLine("Invalid ");
+                    ExitInvalid(userInput);
                     break;
-                    Console.ReadKey();
             }
 
         }
-
-
-
     }
-    static void showNotes()
+
+    static void DisplayActions(string name)
     {
-        Console.WriteLine("Your notes :");
-        for (int i = 0; i < notes.Count; i++)
+        Console.WriteLine("================");
+        Console.WriteLine("What would you like to do, " + name + "?");
+
+        foreach (var action in actions)
         {
-            Console.WriteLine((i + 1) + ": " + notes[i]);
+            Console.WriteLine(action);
         }
     }
-    static void updateNotes(int choice)
-    {
-        if (choice == 1)
-        {
-            Console.Write("What's on your mind? \n \t");
-            string note = Console.ReadLine();
-            notes.Add(note);
-            Console.WriteLine("Got it!");
-        }
-        else if (choice == 2)
-        {
-            Console.WriteLine("Which number of the note you wanna delete: ");
-            string input = Console.ReadLine();
-            int index;
 
-            if (int.TryParse(input, out index) && index >= 1 && index <= notes.Count)
+    static void ShowNotes()
+    {
+        if (NoteProcess.notes.Count == 0)
+        {
+            Console.WriteLine("No notes");
+        }
+        else
+        {
+            List<string> notes = NoteProcess.GetNotes();
+            Console.WriteLine("Your notes:");
+            for (int i = 0; i < notes.Count; i++)
             {
-                notes.RemoveAt(index - 1);
-                Console.WriteLine(" Deleted! ");
+                Console.WriteLine((i + 1) + ": " + notes[i]);
+            }
+        }
 
+           
+    }
+
+    
+
+    static int GetUserInput()
+    {
+        while (true)
+        {
+            Console.Write("[User Input]: ");
+            string input = Console.ReadLine();
+
+            if (int.TryParse(input, out int userInput))
+            {
+                return userInput;
             }
             else
             {
-                Console.WriteLine("Invalid");
+                Console.WriteLine("Invalid input! Please enter a valid number.");
             }
         }
     }
+
+    static void DisplayName(string name)
+    {
+        Console.WriteLine("Good day! " + name);
+    }
+
+    static string GetName()
+    {
+        Console.WriteLine("Hello, this is a note-taking program.");
+        Console.WriteLine("What is your name?");
+        return Console.ReadLine();
+    }
+
+    static void ExitInvalid(int? userAction)
+    {
+        if (userAction == 4)
+        {
+            Console.WriteLine("CLOSING PROGRAM...");
+        }
+        else
+        {
+            Console.WriteLine("Invalid option. Please choose again.");
+        }
+    }
 }
-   
