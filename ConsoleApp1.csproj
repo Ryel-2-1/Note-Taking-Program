@@ -12,7 +12,13 @@
   </Target>
 
   <ItemGroup>
-    <ProjectReference Include="..\NoteBusinessDataLogic\Note.BusinessDataLogic.csproj" />
+    <Compile Remove="NoteBusinessDataLogic\**" />
+    <EmbeddedResource Remove="NoteBusinessDataLogic\**" />
+    <None Remove="NoteBusinessDataLogic\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="NoteBusinessDataLogic\Note.BusinessDataLogic.csproj" />
   </ItemGroup>
 
 </Project>
