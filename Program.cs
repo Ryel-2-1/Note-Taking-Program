@@ -21,21 +21,24 @@ internal class Program
             {
                 case 1:
                     Console.Write("What's on your mind? \n \t");
-                    if (NoteProcess.UpdateNotes(Actions.AddNote))
+                    string note = Console.ReadLine();
+                    if (NoteProcess.UpdateNotes(Actions.AddNote, note))
                     {
                         Console.WriteLine("Got it!");
                     }
                     break;
 
                 case 2:
-                    if (NoteProcess.notes.Count == 0)
+                    if (!NoteProcess.HasNotes())
                     {
                         Console.WriteLine("No notes to delete.");
                         break;
                     }
 
+                    ShowNotes();
                     Console.WriteLine("Which number of the note do you want to delete: ");
-                    if (NoteProcess.UpdateNotes(Actions.DeleteNote))
+                    string input = Console.ReadLine();
+                    if (NoteProcess.UpdateNotes(Actions.DeleteNote, input))
                     {
                         Console.WriteLine("Note deleted successfully.");
                     }
@@ -75,7 +78,7 @@ internal class Program
 
     static void ShowNotes()
     {
-        if (NoteProcess.notes.Count == 0)
+        if (!NoteProcess.HasNotes())
         {
             Console.WriteLine("No notes");
         }
